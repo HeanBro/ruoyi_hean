@@ -1,5 +1,11 @@
-<script setup>
+<script>
 
+export default {
+  name: 'Layout',
+  mounted () {
+    console.log('gsdtoken', this.$store.state.user.token)
+  }
+}
 </script>
 <template>
   <div>layout</div>
