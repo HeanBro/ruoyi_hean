@@ -1,15 +1,30 @@
+<template>
+  <div>
+    <side-bar></side-bar>
+    <div>
+      <div>
+        <nav-bar></nav-bar>
+        <tags-view></tags-view>
+      </div>
+      <app-main></app-main>
+    </div>
+  </div>
+</template>
+
 <script>
+import SideBar from '@/layout/components/SideBar/index.vue'
+import NavBar from '@/layout/components/NavBar.vue'
+import TagsView from '@/layout/components/TagsView/index.vue'
+import AppMain from '@/layout/components/AppMain.vue'
 
 export default {
   name: 'Layout',
+  components: { AppMain, TagsView, NavBar, SideBar },
   mounted () {
     console.log('gsdtoken', this.$store.state.user.token)
   }
 }
 </script>
-<template>
-  <div>layout</div>
-</template>
 
 <style scoped lang="scss">
 
