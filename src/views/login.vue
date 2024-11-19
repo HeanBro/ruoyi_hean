@@ -23,7 +23,7 @@
           placeholder="验证码">
         </el-input>
         <div class="login-code">
-          <img :src="codeUrl" class="login-code-img" @click="getCode"/>
+          <img :src="codeUrl" class="login-code-img" @click="getCode" alt="验证码"/>
         </div>
       </el-form-item>
       <el-checkbox
@@ -100,10 +100,12 @@ export default {
     handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch('Login', this.loginForm).then((res) => {
+          this.$store.dispatch('Login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
-          }).catch((err) => {
-            console.log(err)
+          }).catch(() => {
+            if (this.captchaOnOff) {
+              this.getCode()
+            }
           })
         }
       })
