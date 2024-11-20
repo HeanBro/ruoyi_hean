@@ -24,24 +24,25 @@
 </template>
 
 <script>
-import it from 'element-ui/src/locale/lang/it'
 import MenuItem from '@/layout/components/SideBar/Item.vue'
 import AppLink from '@/layout/components/SideBar/Link.vue'
-import * as path from 'path'
+import path from 'path'
+import { isExternal } from '@/utils/validate'
 
 export default {
   name: 'SideBarItem',
   methods: {
     resolvePath (routePath) {
+      if (isExternal(routePath)) {
+        return routePath
+      }
+      if (isExternal(this.basePath)) {
+        return this.basePath
+      }
       return path.resolve(this.basePath, routePath)
     }
   },
   components: { AppLink, MenuItem },
-  computed: {
-    it () {
-      return it
-    }
-  },
   props: {
     item: {
       type: Object,
