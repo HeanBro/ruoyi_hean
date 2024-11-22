@@ -70,7 +70,7 @@ export default {
       if (showingChildren.length === 0) {
         this.onlyOneChild = {
           ...parent,
-          path:''
+          path: ''
         }
         return true
       }
