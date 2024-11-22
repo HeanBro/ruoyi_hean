@@ -1,9 +1,9 @@
 <template>
   <div v-if="!item.hidden">
-    <template v-if="!item.children">
-      <app-link :to="basePath">
-        <el-menu-item :index="basePath" >
-          <menu-item :icon="item.meta.icon" :title="item.meta.title"></menu-item>
+    <template v-if="hasOneShowChild(item.children,item)">
+      <app-link :to="resolvePath(onlyOneChild.path)">
+        <el-menu-item :index="resolvePath(onlyOneChild.path)" >
+          <menu-item :icon="onlyOneChild.meta.icon" :title="onlyOneChild.meta.title"></menu-item>
         </el-menu-item>
       </app-link>
     </template>
@@ -28,9 +28,20 @@ import MenuItem from '@/layout/components/SideBar/Item.vue'
 import AppLink from '@/layout/components/SideBar/Link.vue'
 import path from 'path'
 import { isExternal } from '@/utils/validate'
+import it from 'element-ui/src/locale/lang/it'
 
 export default {
   name: 'SideBarItem',
+  computed: {
+    it () {
+      return it
+    }
+  },
+  data () {
+    return {
+      onlyOneChild: null
+    }
+  },
   methods: {
     resolvePath (routePath) {
       if (isExternal(routePath)) {
@@ -40,6 +51,30 @@ export default {
         return this.basePath
       }
       return path.resolve(this.basePath, routePath)
+    },
+    hasOneShowChild (children, parent) {
+      if (!children) {
+        children = []
+      }
+      const showingChildren = children.filter(item => {
+        if (item.hidden) {
+          return false
+        } else {
+          this.onlyOneChild = item
+          return true
+        }
+      })
+      if (showingChildren.length === 1) {
+        return true
+      }
+      if (showingChildren.length === 0) {
+        this.onlyOneChild = {
+          ...parent,
+          path:''
+        }
+        return true
+      }
+      return false
     }
   },
   components: { AppLink, MenuItem },

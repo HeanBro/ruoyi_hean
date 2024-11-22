@@ -4,20 +4,32 @@ import Layout from '../layout/index.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
+export const constantRoute = [
   {
     path: '/login',
     name: 'login',
+    hidden: true,
     component: () => import(/* webpackChunkName: "about" */ '../views/login.vue')
   },
   {
     path: '',
-    component: Layout
+    component: Layout,
+    children: [
+      {
+        path: '/index',
+        component: () => import('../views/index.vue'),
+        name: 'Index',
+        meta: {
+          title: '首页',
+          icon: 'dashboard'
+        }
+      }
+    ]
   }
 ]
 
 const router = new VueRouter({
-  routes
+  routes: constantRoute
 })
 
 export default router
