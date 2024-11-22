@@ -28,15 +28,9 @@ import MenuItem from '@/layout/components/SideBar/Item.vue'
 import AppLink from '@/layout/components/SideBar/Link.vue'
 import path from 'path'
 import { isExternal } from '@/utils/validate'
-import it from 'element-ui/src/locale/lang/it'
 
 export default {
   name: 'SideBarItem',
-  computed: {
-    it () {
-      return it
-    }
-  },
   data () {
     return {
       onlyOneChild: null
