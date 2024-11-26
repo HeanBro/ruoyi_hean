@@ -17,7 +17,7 @@ export default {
   components: { Hamburger, Breadcrumb },
   methods: {
     toggleSideBar () {
-      console.log('toggleSideBar')
+      this.$store.dispatch('app/toggleSideBar')
     }
   }
 }

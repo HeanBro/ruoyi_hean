@@ -33,23 +33,15 @@ export default {
   name: 'SideBar',
   components: { SideBarItem, Logo },
   computed: {
-    ...mapGetters(['sidebarRouters']),
+    ...mapGetters(['sidebarRouters', 'sidebar']),
     variables () {
       return variables
+    },
+    isCollapsed () {
+      return !this.sidebar.opened
     }
   },
   methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
-    }
-  },
-  data () {
-    return {
-      isCollapsed: true
-    }
   }
 }
 </script>

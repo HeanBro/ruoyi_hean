@@ -1,12 +1,12 @@
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <router-link v-if="collapse" to="/" class="sidebar-logo-link">
-      <img :src="logo" alt="logo" class="sidebar-logo">
-      <h1 class="sidebar-title">{{title}}</h1>
-    </router-link>
-    <router-link v-else to="/" class="sidebar-logo-link">
       <img v-if="logo" :src="logo" alt="logo" class="sidebar-logo">
       <h1 v-else class="sidebar-title">{{title}}</h1>
+    </router-link>
+    <router-link v-else to="/" class="sidebar-logo-link">
+      <img :src="logo" alt="logo" class="sidebar-logo">
+      <h1 class="sidebar-title">{{title}}</h1>
     </router-link>
   </div>
 </template>
