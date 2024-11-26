@@ -17,4 +17,29 @@
     }
   }
 
+  .hideSidebar {
+    .main-container {
+      margin-left: 54px;
+    }
+
+    .sidebar-container {
+      width: 54px;
+    }
+    .el-menu {
+      .el-submenu {
+        .el-submenu__title {
+          span {
+            visibility: hidden;
+            height: 0;
+            width: 0;
+            display: inline-block;
+          }
+          .el-submenu__icon-arrow {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+  }
+
 }

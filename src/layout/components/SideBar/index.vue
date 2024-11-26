@@ -1,12 +1,11 @@
 <template>
   <div>
-    <logo/>
+    <logo :collapse="isCollapsed" />
     <el-scrollbar>
       <el-menu
         default-active="2"
+        :collapse="isCollapsed"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
         :background-color= "variables.menuBackground"
         text-color="#fff"
         :unique-opened="true"
@@ -32,7 +31,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'SideBar',
-
   components: { SideBarItem, Logo },
   computed: {
     ...mapGetters(['sidebarRouters']),
@@ -46,6 +44,11 @@ export default {
     },
     handleClose (key, keyPath) {
       console.log(key, keyPath)
+    }
+  },
+  data () {
+    return {
+      isCollapsed: true
     }
   }
 }

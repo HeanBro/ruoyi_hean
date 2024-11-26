@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper">
+  <div class="app-wrapper" :class="objClass">
     <side-bar class="sidebar-container"></side-bar>
     <div class="main-container">
       <div>
@@ -20,6 +20,13 @@ import AppMain from '@/layout/components/AppMain.vue'
 export default {
   name: 'Layout',
   components: { AppMain, TagsView, NavBar, SideBar },
+  computed: {
+    objClass () {
+      return {
+        hideSidebar: true
+      }
+    }
+  },
   mounted () {
     console.log('gsdtoken', this.$store.state.user.token)
   }

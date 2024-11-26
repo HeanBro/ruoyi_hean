@@ -80,7 +80,6 @@ export default {
   watch: {
     $route: {
       handler: function (route) {
-        console.log('gsdroute', route)
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
@@ -89,7 +88,6 @@ export default {
   methods: {
     getCode () {
       getCodeImg().then(res => {
-        console.log('gsdres', res)
         this.captchaOnOff = res.captchaOnOff === undefined ? true : res.captchaOnOff
         if (this.captchaOnOff) {
           this.codeUrl = 'data:image/gif;base64,' + res.img
