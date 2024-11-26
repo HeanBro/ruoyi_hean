@@ -36,6 +36,7 @@ export default {
     height: 20px;
     width: 20px;
   }
+  // 点击旋转180°
   .hamburger.is-active {
     transform: rotate(180deg);
   }

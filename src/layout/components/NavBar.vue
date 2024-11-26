@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <hamburger class="hamburger-container" @toggleClick="toggleSideBar"></hamburger>
+    <hamburger class="hamburger-container" @toggleClick="toggleSideBar" :is-active="sidebar.opened"></hamburger>
     <breadcrumb class="breadcrumb-container"></breadcrumb>
     <div class="right-menu">
 
@@ -11,6 +11,7 @@
 <script>
 import Hamburger from '@/layout/components/Hamburger/index.vue'
 import Breadcrumb from '@/layout/components/Breadcrumb/index.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'NavBar',
@@ -19,6 +20,11 @@ export default {
     toggleSideBar () {
       this.$store.dispatch('app/toggleSideBar')
     }
+  },
+  computed: {
+    ...mapGetters([
+      'sidebar'
+    ])
   }
 }
 </script>
