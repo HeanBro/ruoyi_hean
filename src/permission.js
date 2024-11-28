@@ -14,7 +14,7 @@ router.beforeEach((to, from, next) => {
         store.dispatch('GetInfo').then((res) => {
           store.dispatch('GenerateRoutes').then(accessRoutes => {
             router.addRoutes(accessRoutes)
-            next()
+            next({ ...to })
           })
         }).catch((err) => {
           Message.error(err)
