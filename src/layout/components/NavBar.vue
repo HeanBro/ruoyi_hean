@@ -3,7 +3,7 @@
     <hamburger class="hamburger-container" @toggleClick="toggleSideBar" :is-active="sidebar.opened"></hamburger>
     <breadcrumb class="breadcrumb-container"></breadcrumb>
     <div class="right-menu">
-
+      right_menu
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
     cursor: pointer;
   }
   .breadcrumb-container {
-    line-height: 46px;
+    line-height: 50px;
     height: 100%;
     float: left;
     margin-left: 8px;
