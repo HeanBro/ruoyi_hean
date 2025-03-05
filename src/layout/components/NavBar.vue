@@ -68,47 +68,47 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .navbar {
-    height: 50px;
-    box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
-    background: #ffffff;
-  }
-  .hamburger-container {
+.navbar {
+  height: 50px;
+  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+  background: #ffffff;
+}
+.hamburger-container {
+  height: 100%;
+  float: left;
+  line-height: 46px;
+  padding: 0 15px;
+  cursor: pointer;
+}
+.breadcrumb-container {
+  line-height: 50px;
+  height: 100%;
+  float: left;
+  margin-left: 8px;
+}
+.right-menu {
+  float: right;
+  height: 100%;
+  line-height: 46px;
+  .right-menu-item {
+    display: inline-block;
+    padding: 0 8px;
     height: 100%;
-    float: left;
-    line-height: 46px;
-    padding: 0 15px;
-    cursor: pointer;
+    font-size: 18px;
+    color: #5a5e66;
+    vertical-align: text-bottom;
   }
-  .breadcrumb-container {
-    line-height: 50px;
-    height: 100%;
-    float: left;
-    margin-left: 8px;
-  }
-  .right-menu {
-    float: right;
-    height: 100%;
-    line-height: 46px;
-    .right-menu-item {
-      display: inline-block;
-      padding: 0 8px;
-      height: 100%;
-      font-size: 18px;
-      color: #5a5e66;
-      vertical-align: text-bottom;
-    }
-    .avatar-container {
-      margin-right: 30px;
-      .avatar-wrapper {
-        margin-top: 5px;
-        .user-avatar {
-          width: 40px;
-          height: 40px;
-          cursor: pointer;
-          border-radius: 10px;
-        }
+  .avatar-container {
+    margin-right: 30px;
+    .avatar-wrapper {
+      margin-top: 5px;
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        border-radius: 10px;
       }
     }
   }
+}
 </style>
