@@ -4,24 +4,32 @@ import ScrollPane from '@/layout/components/TagsView/ScrollPane/index.vue'
 export default {
   name: 'TagsView',
   components: { ScrollPane },
+  computed: {
+    visitedViews () {
+      return this.$store.state.tagsView.visitedViews
+    }
+  },
+  mounted () {
+    this.addTags()
+  },
+  watch: {
+    $route () {
+      this.addTags()
+    }
+  },
   data () {
     return {
-      visitedViews: [
-        {
-          title: '首页',
-          path: 'test'
-        },
-        {
-          title: 'test1',
-          path: 'test'
-        },
-        {
-          title: 'test2',
-          path: 'test'
-        }
-      ]
+    }
+  },
+  methods: {
+    addTags () {
+      const { name } = this.$route
+      if (name) {
+        this.$store.dispatch('tagsView/addView', this.$route)
+      }
     }
   }
+
 }
 </script>
 
