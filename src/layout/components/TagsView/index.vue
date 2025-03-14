@@ -27,6 +27,9 @@ export default {
       if (name) {
         this.$store.dispatch('tagsView/addView', this.$route)
       }
+    },
+    isActive (route) {
+      return route.path === this.$route.path
     }
   }
 
@@ -40,6 +43,7 @@ export default {
         v-for="tag in visitedViews"
         :key="tag.path"
         tag="span"
+        :class="isActive(tag) ? 'active' : ''"
         :to="{path: tag.name}"
         class="tag-view-item"
       >
@@ -73,6 +77,20 @@ export default {
         }
         &:last-of-type {
           margin-right: 15px;
+        }
+        &.active {
+          background-color: #42b983;
+          color: #ffffff;
+          border-color:#42b983;
+          &::before {
+            content: '';
+            background:#ffffff;
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+            border-radius: 50%;
+            margin-right: 2px;
+          }
         }
       }
     }
