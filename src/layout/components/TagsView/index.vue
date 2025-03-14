@@ -32,7 +32,20 @@ export default {
       return route.path === this.$route.path
     },
     closeSelectedTag (view) {
-      this.$store.dispatch('tagsView/deleteView', view)
+      this.$store.dispatch('tagsView/deleteView', view).then(({ visitedViews }) => {
+        if (this.isActive(view)) {
+          this.toLastView(visitedViews, view)
+        }
+      })
+    },
+    toLastView (visitedViews) {
+      const lateView = visitedViews.slice(-1)[0]
+      if (lateView) {
+        this.$router.push(lateView.fullPath)
+      }
+    },
+    isAffix (tag) {
+      return tag.meta && tag.meta.affix
     }
   }
 
@@ -47,11 +60,11 @@ export default {
         :key="tag.path"
         tag="span"
         :class="isActive(tag) ? 'active' : ''"
-        :to="{path: tag.name}"
+        :to="{path: tag.path}"
         class="tag-view-item"
       >
         {{tag.title}}
-        <span class="el-icon-close" @click="closeSelectedTag(tag)"></span>
+        <span v-if="!isAffix(tag)" class="el-icon-close" @click.stop="closeSelectedTag(tag)"></span>
       </router-link>
     </scroll-pane>
   </div>
