@@ -30,6 +30,9 @@ export default {
     },
     isActive (route) {
       return route.path === this.$route.path
+    },
+    closeSelectedTag (view) {
+      this.$store.dispatch('tagsView/deleteView', view)
     }
   }
 
@@ -48,6 +51,7 @@ export default {
         class="tag-view-item"
       >
         {{tag.title}}
+        <span class="el-icon-close" @click="closeSelectedTag(tag)"></span>
       </router-link>
     </scroll-pane>
   </div>
@@ -90,6 +94,21 @@ export default {
             display: inline-block;
             border-radius: 50%;
             margin-right: 2px;
+          }
+        }
+        .el-icon-close {
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          text-align: center;
+          vertical-align: 2px;
+          &:before {
+            transform: scale(0.6);
+            vertical-align: -2px;
+          }
+          &:hover {
+            background-color: #b4bccc;
+            color: white;
           }
         }
       }
