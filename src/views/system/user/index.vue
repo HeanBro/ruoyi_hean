@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-  <div>user</div>
+  <div class="app-container">user</div>
 </template>
 
 <style scoped lang="scss">
