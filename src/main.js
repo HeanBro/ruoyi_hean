@@ -8,6 +8,7 @@ import './permission'
 import './assets/icons'
 
 import RightToolbar from '@/components/RightToolbar/index.vue'
+import Pagination from '@/components/Pagination/index.vue'
 
 import '@/assets/styles/index.scss'
 import '@/assets/styles/ruoyi.scss'
@@ -17,6 +18,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 
 Vue.component('RightToolbar', RightToolbar)
+Vue.component('Pagination', Pagination)
 
 new Vue({
   router,

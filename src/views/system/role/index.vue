@@ -1,4 +1,6 @@
 <script>
+import { listRole } from '@/api/system/role'
+
 export default {
   name: 'role',
   data () {
@@ -12,9 +14,17 @@ export default {
       roleList: []
     }
   },
+  created () {
+    this.getList()
+  },
   methods: {
     handleUpdate () {
 
+    },
+    getList () {
+      listRole().then(response => {
+        this.roleList = response.rows
+      })
     }
   }
 }
@@ -154,6 +164,9 @@ export default {
         </template>
       </el-table-column>
     </el-table>
+    <pagination>
+
+    </pagination>
   </div>
 </template>
 
