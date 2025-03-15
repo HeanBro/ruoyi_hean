@@ -8,7 +8,13 @@ export default {
         roleName: undefined,
         roleKey: undefined,
         status: undefined
-      }
+      },
+      roleList: []
+    }
+  },
+  methods: {
+    handleUpdate () {
+
     }
   }
 }
@@ -55,10 +61,99 @@ export default {
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="mini">搜索</el-button>
-        <el-button size="mini">重置</el-button>
+        <el-button type="primary" size="mini" icon="el-icon-search">搜索</el-button>
+        <el-button size="mini" icon="el-icon-refresh">重置</el-button>
       </el-form-item>
     </el-form>
+
+    <el-row :gutter="10">
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          size="mini"
+          icon="el-icon-plus"
+          plain
+        >新增</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="success"
+          size="mini"
+          icon="el-icon-edit"
+          plain
+        >修改</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="danger"
+          size="mini"
+          icon="el-icon-delete"
+          plain
+        >删除</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          size="mini"
+          icon="el-icon-download"
+          plain
+        >导出</el-button>
+      </el-col>
+
+      <right-toolbar></right-toolbar>
+    </el-row>
+
+    <el-table :data="roleList">
+      <el-table-column type="selection" width="55" align="center"></el-table-column>
+      <el-table-column label="角色编号" prop="roleId" width="120"></el-table-column>
+      <el-table-column label="角色名称" prop="roleName" width="150"></el-table-column>
+      <el-table-column label="权限字符" prop="roleKey" width="150"></el-table-column>
+      <el-table-column label="显示顺序" prop="roleSort" width="100"></el-table-column>
+      <el-table-column label="状态" width="100" prop="status">
+        <template v-slot="scope">
+          <el-switch
+            v-model="scope.row.status"
+            active-value="0"
+            inactive-value="1"
+          >
+
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" width="180" prop="createTime"></el-table-column>
+      <el-table-column label="操作" align="center">
+        <template v-slot="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+          >
+            修改
+          </el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+          >
+            删除
+          </el-button>
+          <el-dropdown
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+          >
+            <span class="el-dropdown-link">
+              <i class="el-icon-d-arrow-right"></i>更多
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item icon="el-icon-circle-check">数据权限</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-user">分配用户</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
