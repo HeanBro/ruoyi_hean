@@ -7,11 +7,14 @@ export default {
     return {
       dateRange: [],
       queryParams: {
+        pageNum: 1,
+        pageSize: 10,
         roleName: undefined,
         roleKey: undefined,
         status: undefined
       },
-      roleList: []
+      roleList: [],
+      total: 0
     }
   },
   created () {
@@ -24,6 +27,7 @@ export default {
     getList () {
       listRole().then(response => {
         this.roleList = response.rows
+        this.total = response.total
       })
     }
   }
@@ -164,7 +168,11 @@ export default {
         </template>
       </el-table-column>
     </el-table>
-    <pagination>
+    <pagination
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+    >
 
     </pagination>
   </div>

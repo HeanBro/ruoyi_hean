@@ -54,5 +54,8 @@ export default {
 <style scoped lang="scss">
 .el-scrollbar {
   height: calc(100% - 50px);
+  .el-scrollbar__wrap {
+    margin-right: -17px;
+  }
 }
 </style>
