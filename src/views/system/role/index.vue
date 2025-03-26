@@ -25,7 +25,7 @@ export default {
 
     },
     getList () {
-      listRole().then(response => {
+      listRole(this.queryParams).then(response => {
         this.roleList = response.rows
         this.total = response.total
       })
@@ -170,8 +170,10 @@ export default {
     </el-table>
     <pagination
       :total="total"
+      :page-sizes="[1,2,5,10]"
       :page.sync="queryParams.pageNum"
       :limit.sync="queryParams.pageSize"
+      @pagination="getList"
     >
 
     </pagination>

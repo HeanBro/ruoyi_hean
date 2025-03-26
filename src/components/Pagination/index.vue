@@ -30,7 +30,12 @@ export default {
     }
   },
   methods: {
-
+    handleSizeChange (val) {
+      this.$emit('pagination', { page: this.currentPage, limit: val })
+    },
+    handleCurrentChange (val) {
+      this.$emit('pagination', { page: this.currentPage, limit: val })
+    }
   },
   computed: {
     currentPage: {
@@ -62,8 +67,9 @@ export default {
       :total="total"
       :layout="layout"
       :page-sizes="pageSizes"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
     >
-
     </el-pagination>
   </div>
 </template>
