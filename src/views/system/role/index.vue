@@ -21,11 +21,19 @@ export default {
     this.getList()
   },
   methods: {
+    handleQuery () {
+      this.queryParams.pageNum = 1
+      this.getList()
+    },
+    resetQuery () {
+      this.resetForm('queryForm')
+      this.handleQuery()
+    },
     handleUpdate () {
 
     },
     getList () {
-      listRole(this.queryParams).then(response => {
+      listRole(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.roleList = response.rows
         this.total = response.total
       })
@@ -36,8 +44,8 @@ export default {
 
 <template>
   <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item label="角色名称">
+    <el-form :inline="true" ref="queryForm" :model="queryParams">
+      <el-form-item label="角色名称" prop="roleName">
         <el-input
           v-model="queryParams.roleName"
           placeholder="请输入角色名称"
@@ -45,7 +53,7 @@ export default {
           style="width: 240px"
         />
       </el-form-item>
-      <el-form-item label="权限字符">
+      <el-form-item label="权限字符" prop="roleKey">
         <el-input
           v-model="queryParams.roleKey"
           placeholder="请输入权限字符"
@@ -53,7 +61,7 @@ export default {
           style="width: 240px"
         />
       </el-form-item>
-      <el-form-item label="状态">
+      <el-form-item label="状态" prop="status">
         <el-select
           v-model="queryParams.status"
         placeholder="角色状态"
@@ -71,12 +79,13 @@ export default {
           range-separator="-"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
+            value-format="yyyy-MM-dd"
         >
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="mini" icon="el-icon-search">搜索</el-button>
-        <el-button size="mini" icon="el-icon-refresh">重置</el-button>
+        <el-button type="primary" size="mini" icon="el-icon-search" @click="handleQuery">搜索</el-button>
+        <el-button size="mini" icon="el-icon-refresh" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -158,7 +167,7 @@ export default {
             @click="handleUpdate(scope.row)"
           >
             <span class="el-dropdown-link">
-              <i class="el-icon-d-arrow-right"></i>更多
+              <i class="el-icon-d-arrow-right"></i>&nbsp;更多
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="el-icon-circle-check">数据权限</el-dropdown-item>

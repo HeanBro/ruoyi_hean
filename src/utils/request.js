@@ -2,6 +2,7 @@ import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import store from '@/store'
+import { transParams } from '@/utils/ruoyi'
 
 const isRelogin = { show: false }
 
@@ -14,6 +15,12 @@ service.interceptors.request.use(config => {
   const notToken = (config.headers || {}).notToken === true
   if (getToken() && !notToken) {
     config.headers.Authorization = 'Bearer ' + getToken()
+  }
+  if (config.method === 'get' && config.params) {
+    let url = config.url + '?' + transParams(config.params)
+    url = url.slice(0, -1)
+    config.params = {}
+    config.url = url
   }
   return config
 }, error => {
