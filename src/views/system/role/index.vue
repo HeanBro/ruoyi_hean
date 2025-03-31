@@ -16,7 +16,8 @@ export default {
       roleList: [],
       total: 0,
       title: '',
-      open: false
+      open: false,
+      form: {}
     }
   },
   created () {
@@ -35,15 +36,25 @@ export default {
     handleUpdate () {
 
     },
-    handleAdd () {
-      this.open = true
-      this.title = '添加角色'
-    },
     getList () {
       listRole(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.roleList = response.rows
         this.total = response.total
       })
+    },
+    handleAdd () {
+      this.open = true
+      this.title = '添加角色'
+    },
+    cancel () {
+      this.reset()
+      this.open = false
+    },
+    submitForm () {
+
+    },
+    reset () {
+      this.resetForm('form')
     }
   }
 }
@@ -194,25 +205,25 @@ export default {
     >
 
     </pagination>
-    <el-dialog :title="title" :visible="open" width="500px">
-      <el-form label-width="100px">
-        <el-form-item label="角色名称">
-          <el-input placeholder="请输入角色名称"/>
+    <el-dialog :title="title" :visible.sync="open" width="500px" >
+      <el-form label-width="100px" :model="form" ref="form">
+        <el-form-item label="角色名称" prop="roleName">
+          <el-input placeholder="请输入角色名称" v-model="form.roleName"/>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="roleKey">
           <span slot="label">
             <el-tooltip content="控制器中定义的权限字符" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
             权限字符
           </span>
-          <el-input placeholder="请输入权限字符"/>
+          <el-input placeholder="请输入权限字符" v-model="form.roleKey"/>
         </el-form-item>
-        <el-form-item label="角色顺序">
-          <el-input-number controls-position="right" :min="0"/>
+        <el-form-item label="角色顺序" prop="roleSort">
+          <el-input-number controls-position="right" :min="0" v-model="form.roleSort"/>
         </el-form-item>
-        <el-form-item label="状态">
-          <el-radio-group>
+        <el-form-item label="状态" >
+          <el-radio-group v-model="form.status">
             <el-radio>正常</el-radio>
             <el-radio>停用</el-radio>
           </el-radio-group>
@@ -227,13 +238,13 @@ export default {
           >
           </el-tree>
         </el-form-item>
-        <el-form-item label="备注">
-          <el-input type="textarea" placeholder="请输入内容"/>
+        <el-form-item label="备注" prop="remark">
+          <el-input type="textarea" placeholder="请输入内容" v-model="form.remark"/>
         </el-form-item>
       </el-form>
       <div slot="footer">
-        <el-button type="primary">确定</el-button>
-        <el-button >取消</el-button>
+        <el-button type="primary" @click="submitForm">确定</el-button>
+        <el-button @click="cancel">取消</el-button>
       </div>
     </el-dialog>
   </div>
