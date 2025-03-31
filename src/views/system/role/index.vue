@@ -14,7 +14,9 @@ export default {
         status: undefined
       },
       roleList: [],
-      total: 0
+      total: 0,
+      title: '',
+      open: false
     }
   },
   created () {
@@ -26,11 +28,16 @@ export default {
       this.getList()
     },
     resetQuery () {
+      this.dateRange = []
       this.resetForm('queryForm')
       this.handleQuery()
     },
     handleUpdate () {
 
+    },
+    handleAdd () {
+      this.open = true
+      this.title = '添加角色'
     },
     getList () {
       listRole(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
@@ -96,6 +103,7 @@ export default {
             size="mini"
             icon="el-icon-plus"
             plain
+            @click="handleAdd"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -186,6 +194,48 @@ export default {
     >
 
     </pagination>
+    <el-dialog :title="title" :visible="open" width="500px">
+      <el-form label-width="100px">
+        <el-form-item label="角色名称">
+          <el-input placeholder="请输入角色名称"/>
+        </el-form-item>
+        <el-form-item>
+          <span slot="label">
+            <el-tooltip content="控制器中定义的权限字符" placement="top">
+              <i class="el-icon-question"></i>
+            </el-tooltip>
+            权限字符
+          </span>
+          <el-input placeholder="请输入权限字符"/>
+        </el-form-item>
+        <el-form-item label="角色顺序">
+          <el-input-number controls-position="right" :min="0"/>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-radio-group>
+            <el-radio>正常</el-radio>
+            <el-radio>停用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="菜单权限">
+          <el-checkbox>展开/折叠</el-checkbox>
+          <el-checkbox>全选/全不选</el-checkbox>
+          <el-checkbox>父子联动</el-checkbox>
+          <el-tree
+            class="tree-border"
+            empty-text="加载中，请稍后"
+          >
+          </el-tree>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input type="textarea" placeholder="请输入内容"/>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button type="primary">确定</el-button>
+        <el-button >取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
