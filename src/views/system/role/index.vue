@@ -34,7 +34,10 @@ export default {
       defaultProps: {
         children: 'children',
         label: 'label'
-      }
+      },
+      menuExpand: false,
+      menuNodeAll: false,
+      menuCheckStrictly: false
     }
   },
   created () {
@@ -83,6 +86,24 @@ export default {
       menuTreeslect().then(response => {
         this.menuOptions = response.data
       })
+    },
+    handleChekckedTreeExpand (val, type) {
+      if (type === 'menu') {
+        const treeList = this.menuOptions
+        for (let i = 0; i < treeList.length; i++) {
+          this.$refs.menu.store.nodesMap[treeList[i].id].expanded = val
+        }
+      }
+    },
+    handleChekckedTreeNodeAll (val, type) {
+      if (type === 'menu') {
+        this.$refs.menu.setCheckedNodes(val ? this.menuOptions : [])
+      }
+    },
+    handleChekckedTreeCheckStrictly (val,type) {
+      if (type === 'menu') {
+        this.menuCheckStrictly = val
+      }
     }
   }
 }
@@ -257,15 +278,18 @@ export default {
           </el-radio-group>
         </el-form-item>
         <el-form-item label="菜单权限">
-          <el-checkbox>展开/折叠</el-checkbox>
-          <el-checkbox>全选/全不选</el-checkbox>
-          <el-checkbox>父子联动</el-checkbox>
+          <el-checkbox v-model="menuExpand" @change="handleChekckedTreeExpand($event,'menu')">展开/折叠</el-checkbox>
+          <el-checkbox v-model="menuNodeAll" @change="handleChekckedTreeNodeAll($event,'menu')">全选/全不选</el-checkbox>
+          <el-checkbox v-model="menuCheckStrictly" @change="handleChekckedTreeCheckStrictly($event,'menu')">父子联动</el-checkbox>
           <el-tree
             :data="menuOptions"
             show-checkbox
             class="tree-border"
+            ref="menu"
+            node-key="id"
             empty-text="加载中，请稍后"
             :props="defaultProps"
+            :check-strictly="!menuCheckStrictly"
           >
           </el-tree>
         </el-form-item>
