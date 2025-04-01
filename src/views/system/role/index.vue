@@ -1,5 +1,6 @@
 <script>
 import { listRole } from '@/api/system/role'
+import { treeselect as menuTreeslect } from '@/api/system/menu'
 
 export default {
   name: 'role',
@@ -20,14 +21,19 @@ export default {
       form: {},
       rules: {
         roleName: [
-          {required: true, message: '角色名称不能为空', trigger: 'blur'}
+          { required: true, message: '角色名称不能为空', trigger: 'blur' }
         ],
         roleKey: [
-          {required: true, message: '权限字符不能为空', trigger: 'blur'}
+          { required: true, message: '权限字符不能为空', trigger: 'blur' }
         ],
         roleSort: [
-          {required: true, message: '角色排序不能为空', trigger: 'blur'}
+          { required: true, message: '角色排序不能为空', trigger: 'blur' }
         ]
+      },
+      menuOptions: [],
+      defaultProps: {
+        children: 'children',
+        label: 'label'
       }
     }
   },
@@ -54,6 +60,8 @@ export default {
       })
     },
     handleAdd () {
+      this.reset()
+      this.getMenuTreeselect()
       this.open = true
       this.title = '添加角色'
     },
@@ -62,7 +70,7 @@ export default {
       this.open = false
     },
     submitForm () {
-      this.$refs['form'].validate((valid) => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
 
         }
@@ -70,6 +78,11 @@ export default {
     },
     reset () {
       this.resetForm('form')
+    },
+    getMenuTreeselect () {
+      menuTreeslect().then(response => {
+        this.menuOptions = response.data
+      })
     }
   }
 }
@@ -248,8 +261,11 @@ export default {
           <el-checkbox>全选/全不选</el-checkbox>
           <el-checkbox>父子联动</el-checkbox>
           <el-tree
+            :data="menuOptions"
+            show-checkbox
             class="tree-border"
             empty-text="加载中，请稍后"
+            :props="defaultProps"
           >
           </el-tree>
         </el-form-item>
