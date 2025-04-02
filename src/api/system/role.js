@@ -30,3 +30,10 @@ export function updateRole (data) {
     data: data
   })
 }
+
+export function delRole (roleId) {
+  return request({
+    url: '/system/role/' + roleId,
+    method: 'delete'
+  })
+}

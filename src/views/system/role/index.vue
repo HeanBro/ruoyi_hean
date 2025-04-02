@@ -1,5 +1,5 @@
 <script>
-import { listRole, addRole, getRole, updateRole } from '@/api/system/role'
+import { listRole, addRole, getRole, updateRole, delRole } from '@/api/system/role'
 import { roleMenuTreeselect, treeselect as menuTreeslect } from '@/api/system/menu'
 
 export default {
@@ -41,6 +41,7 @@ export default {
       menuCheckStrictly: false,
       ids: [],
       single: true,
+      multiple: true
     }
   },
   created () {
@@ -70,6 +71,15 @@ export default {
           })
         })
       })
+    },
+    handleDelete (row) {
+      const roleIds = row.roleId || this.ids
+      this.$modal.confirm('是否确认删除角色编号为"' + roleIds + '"的数据？').then(function () {
+        return delRole(roleIds)
+      }).then(() => {
+        this.getList()
+        this.$modal.msgSuccess('删除成功')
+      }).catch(()=>{})
     },
     getRoleMenuTreeselect (roleId) {
       return roleMenuTreeselect(roleId).then(response => {
@@ -157,6 +167,7 @@ export default {
     handleSelectionChange (selection) {
       this.ids = selection.map(item => item.roleId)
       this.single = selection.length !== 1
+      this.multiple = !selection.length
     }
   }
 }
@@ -235,6 +246,8 @@ export default {
             size="mini"
             icon="el-icon-delete"
             plain
+            @click="handleDelete"
+            :disabled="multiple"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -281,6 +294,7 @@ export default {
               size="mini"
               type="text"
               icon="el-icon-delete"
+              @click="handleDelete(scope.row)"
           >
             删除
           </el-button>
