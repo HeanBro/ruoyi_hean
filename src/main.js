@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './permission'
 import './assets/icons'
+import plugins from '@/plugins'
 
 import RightToolbar from '@/components/RightToolbar/index.vue'
 import Pagination from '@/components/Pagination/index.vue'
@@ -20,6 +21,8 @@ import '@/assets/styles/ruoyi.scss'
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
+
+Vue.use(plugins)
 
 DictData.install()
 

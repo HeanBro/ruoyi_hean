@@ -1,5 +1,5 @@
 <script>
-import { listRole } from '@/api/system/role'
+import { listRole, addRole } from '@/api/system/role'
 import { treeselect as menuTreeslect } from '@/api/system/menu'
 
 export default {
@@ -76,11 +76,24 @@ export default {
     submitForm () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-
+          this.form.menuIds = this.getMenuAllCheckedKeys()
+          addRole(this.form).then(response => {
+            this.$modal.msgSuccess('新增成功')
+            this.open = false
+            this.getList()
+          })
         }
       })
     },
     reset () {
+      this.menuNodeAll = false
+      this.menuExpand = false
+      this.menuCheckStrictly = true
+      this.form = {
+        menuIds: [],
+        roleSort: 0,
+        status: '0'
+      }
       this.resetForm('form')
     },
     getMenuTreeselect () {
@@ -105,6 +118,13 @@ export default {
       if (type === 'menu') {
         this.menuCheckStrictly = val
       }
+    },
+    getMenuAllCheckedKeys () {
+      const checkedKeys = this.$refs.menu.getCheckedKeys()
+      const halfcheckedKeys = this.$refs.menu.getHalfCheckedKeys()
+      // 技巧性 使用apply 和 不使用有很大区别
+      checkedKeys.unshift.apply(checkedKeys, halfcheckedKeys)
+      return checkedKeys
     }
   }
 }
