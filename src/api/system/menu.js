@@ -6,3 +6,10 @@ export function treeselect () {
     method: 'get'
   })
 }
+
+export function roleMenuTreeselect (roleId) {
+  return request({
+    url: '/system/menu/roleMenuTreeselect/' + roleId,
+    method: 'get'
+  })
+}

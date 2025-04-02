@@ -1,6 +1,6 @@
 <script>
-import { listRole, addRole } from '@/api/system/role'
-import { treeselect as menuTreeslect } from '@/api/system/menu'
+import { listRole, addRole, getRole, updateRole } from '@/api/system/role'
+import { roleMenuTreeselect, treeselect as menuTreeslect } from '@/api/system/menu'
 
 export default {
   name: 'role',
@@ -38,7 +38,9 @@ export default {
       },
       menuExpand: false,
       menuNodeAll: false,
-      menuCheckStrictly: false
+      menuCheckStrictly: false,
+      ids: [],
+      single: true,
     }
   },
   created () {
@@ -54,8 +56,26 @@ export default {
       this.resetForm('queryForm')
       this.handleQuery()
     },
-    handleUpdate () {
-
+    handleUpdate (row) {
+      this.reset()
+      const roleId = row.roleId || this.ids
+      const roleMenu = this.getRoleMenuTreeselect(roleId)
+      getRole(roleId).then(response => {
+        this.form = response.data
+        this.open = true
+        roleMenu.then(res => {
+          const checkedKeys = res.checkedKeys
+          checkedKeys.forEach(v => {
+            this.$refs.menu.setChecked(v, true, false)
+          })
+        })
+      })
+    },
+    getRoleMenuTreeselect (roleId) {
+      return roleMenuTreeselect(roleId).then(response => {
+        this.menuOptions = response.menus
+        return response
+      })
     },
     getList () {
       listRole(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
@@ -76,12 +96,20 @@ export default {
     submitForm () {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          this.form.menuIds = this.getMenuAllCheckedKeys()
-          addRole(this.form).then(response => {
-            this.$modal.msgSuccess('新增成功')
-            this.open = false
-            this.getList()
-          })
+          if (this.form.roleId !== undefined) {
+            this.form.menuIds = this.getMenuAllCheckedKeys()
+            updateRole(this.form).then(response => {
+              this.$modal.msgSuccess('修改成功')
+              this.open = false
+              this.getList()
+            })
+          } else {
+            addRole(this.form).then(response => {
+              this.$modal.msgSuccess('新增成功')
+              this.open = false
+              this.getList()
+            })
+          }
         }
       })
     },
@@ -125,6 +153,10 @@ export default {
       // 技巧性 使用apply 和 不使用有很大区别
       checkedKeys.unshift.apply(checkedKeys, halfcheckedKeys)
       return checkedKeys
+    },
+    handleSelectionChange (selection) {
+      this.ids = selection.map(item => item.roleId)
+      this.single = selection.length !== 1
     }
   }
 }
@@ -193,6 +225,8 @@ export default {
             size="mini"
             icon="el-icon-edit"
             plain
+            :disabled="single"
+            @click="handleUpdate"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -215,7 +249,7 @@ export default {
       <right-toolbar></right-toolbar>
     </el-row>
 
-    <el-table :data="roleList">
+    <el-table :data="roleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center"></el-table-column>
       <el-table-column label="角色编号" prop="roleId" width="120"></el-table-column>
       <el-table-column label="角色名称" prop="roleName" width="150"></el-table-column>
@@ -239,6 +273,7 @@ export default {
               size="mini"
               type="text"
               icon="el-icon-edit"
+              @click="handleUpdate(scope.row)"
           >
             修改
           </el-button>
@@ -253,7 +288,6 @@ export default {
               size="mini"
               type="text"
               icon="el-icon-edit"
-              @click="handleUpdate(scope.row)"
           >
             <span class="el-dropdown-link">
               <i class="el-icon-d-arrow-right"></i>&nbsp;更多
