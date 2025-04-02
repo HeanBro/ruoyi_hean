@@ -7,6 +7,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './permission'
 import './assets/icons'
 import plugins from '@/plugins'
+import directive from '@/directive'
+
 import { download } from '@/utils/request'
 
 import RightToolbar from '@/components/RightToolbar/index.vue'
@@ -23,6 +25,7 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.use(plugins)
+Vue.use(directive)
 
 DictData.install()
 
