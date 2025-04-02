@@ -10,6 +10,9 @@ export default {
   methods: {
     toggleSearch () {
       this.$emit('update:showSearch', !this.showSearch)
+    },
+    refresh () {
+      this.$emit('queryTable')
     }
   }
 }
@@ -22,7 +25,7 @@ export default {
         <el-button size="mini" circle icon="el-icon-search" @click="toggleSearch()"></el-button>
       </el-tooltip>
       <el-tooltip content="刷新" placement="top">
-        <el-button size="mini" circle icon="el-icon-refresh"></el-button>
+        <el-button size="mini" circle icon="el-icon-refresh" @click="refresh()"></el-button>
       </el-tooltip>
       <el-tooltip content="显隐列" placement="top">
         <el-button size="mini" circle icon="el-icon-menu"></el-button>
