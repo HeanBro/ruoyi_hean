@@ -15,6 +15,7 @@ export function addDateRange (params, dateRange) {
   return search
 }
 
+// 将获取的json对象转换成用&连接的字符串
 export function transParams (params) {
   let result = ''
   for (const propName of Object.keys(params)) {

@@ -79,7 +79,12 @@ export default {
       }).then(() => {
         this.getList()
         this.$modal.msgSuccess('删除成功')
-      }).catch(()=>{})
+      }).catch(() => {})
+    },
+    handleExport () {
+      this.download('system/role/export', {
+        ...this.queryParams
+      }, `role_${new Date().getTime()}.xlsx`)
     },
     getRoleMenuTreeselect (roleId) {
       return roleMenuTreeselect(roleId).then(response => {
@@ -256,6 +261,7 @@ export default {
             size="mini"
             icon="el-icon-download"
             plain
+            @click="handleExport"
         >导出</el-button>
       </el-col>
 

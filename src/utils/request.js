@@ -1,9 +1,11 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import { Loading, Message, MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 import store from '@/store'
 import { transParams } from '@/utils/ruoyi'
+import { saveAs } from 'file-saver'
 
+let downloadLoadingInstance
 const isRelogin = { show: false }
 
 const service = axios.create({
@@ -35,6 +37,9 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(res => {
   const code = res.data.code
   const msg = res.data.msg
+  if (res.request.responseType === 'blob') {
+    return res.data
+  }
   if (code === 401) {
     if (!isRelogin.show) {
       isRelogin.show = true
@@ -77,5 +82,28 @@ service.interceptors.response.use(res => {
   })
   return Promise.reject(error)
 })
+
+export function download (url, params, filename) {
+  // 正在下载动画
+  downloadLoadingInstance = Loading.service({
+    text: '正在下载数据，请稍候',
+    spinner: 'el-icon-loading',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
+  return service.post(url, params, {
+    transformRequest: params => { return transParams(params) },
+    responseType: 'blob',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  }).then(res => {
+    // 下载文件函数
+    saveAs(res, filename)
+    downloadLoadingInstance.close()
+  }).catch(r => {
+    Message.error('下载文件出现错误')
+    downloadLoadingInstance.close()
+  })
+}
 
 export default service
